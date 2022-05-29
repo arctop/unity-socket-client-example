@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace io.neuos
+﻿namespace io.neuos
 {
     public static class NeuosStreamConstants
     {

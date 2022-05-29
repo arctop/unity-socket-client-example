@@ -9,9 +9,19 @@ using static io.neuos.NeuosStreamConstants;
 
 namespace io.neuos
 {
-    
+    /// <summary>
+    /// Stream Client Behaviour
+    /// This class handles the connection to the Neuos Stream Server
+    /// running on a local android phone.
+    /// It establises the socket connection, and handles authentication, along with all messaging.
+    /// The class also handles reading the JSON objects and dispatching events into the unity world.
+    /// This is done via UnityEvents so it is possible to link in the inspector.
+    /// </summary>
     public class NeuosStreamClient : MonoBehaviour
     {
+        /**
+         Serializable event classes used
+         */
         [Serializable]
         public class ValueChangedEvent : UnityEvent<string, float> { }
         [Serializable]
@@ -21,6 +31,9 @@ namespace io.neuos
         [Serializable]
         public class ConnectionEvent : UnityEvent<int, int> { }
 
+        /**
+         Events sent out into Unity
+         */
         [SerializeField]
         private UnityEvent OnServerConnected;
         [SerializeField]
@@ -35,6 +48,7 @@ namespace io.neuos
         private ErrorEvent OnError;
 
         public bool IsConnected { get; private set; }
+        // You must set this field with your API key before connecting
         public string ApiKey { get; set; }
 
         private Socket m_Socket;
@@ -42,10 +56,13 @@ namespace io.neuos
         private byte[] m_recBuffer = new byte[1024];
         private byte[] m_keepAlive = new byte[1];
         private bool m_blockingState;
-
-        
-        
-
+                
+        /// <summary>
+        /// Establishes a socket connection to the server
+        /// API Key must be set prior or authentication will fail
+        /// </summary>
+        /// <param name="serverIp">IP address of the server</param>
+        /// <param name="serverPort">Port number of the server</param>
         public void ConnectToServer(string serverIp, int serverPort)
         {
             try
@@ -56,6 +73,7 @@ namespace io.neuos
 #if UNITY_EDITOR
                 Debug.Log($"Connections Status: {m_Socket.Connected}");
 #endif
+                // Start authentication process
                 SendAuth();
             }
             catch (FormatException e)
@@ -73,6 +91,9 @@ namespace io.neuos
 #endif
             }
         }
+        /// <summary>
+        /// Disconnects from the server and releases resources
+        /// </summary>
         public void Disconnect()
         {
             IsConnected = false;
@@ -94,15 +115,25 @@ namespace io.neuos
             m_Socket?.Dispose();
             OnServerDisconnected?.Invoke();
         }
+        /// <summary>
+        /// Unity update loop.
+        /// Here the client reads 1 message off the stream every frame
+        /// It then parses it and dispatches the data based using the class' events
+        /// </summary>
         private void Update()
         {
+            // only do work when connected
             if (IsConnected)
             {
-
+                // the stream has 2 bytes written into it to denote the size of the message.
+                // so we await until we have at least 2 bytes before reading the stream
                 if (m_Socket.Available > 2)
                 {
+                    // get the next message
                     var data = GetMessage();
+                    // parse the json into a JObject so we can pull properties out easily
                     var response = JObject.Parse(data);
+                    // get the command that arrived
                     var commandValue = (string)response.Property(StreamObjectKeys.COMMAND)?.Value;
                     // example of pulling the time stamp off the command
                     var timestamp = (long)response.Property(StreamObjectKeys.TIME_STAMP)?.Value;
@@ -168,28 +199,43 @@ namespace io.neuos
                 }
             }
         }
+        /// <summary>
+        /// Helper function that sends out and authentication command to the server
+        /// </summary>
         private void SendAuth()
         {
-            string toSend = getAuth();
+            string toSend = GetAuth();
+            // get the size of the message we are about to send
             ushort toSendLen = (ushort)Encoding.UTF8.GetByteCount(toSend);
+            // turn it into bytes
             byte[] toSendBytes = Encoding.UTF8.GetBytes(toSend);
+            // encode the size into bytes
             byte[] toSendLenBytes = BitConverter.GetBytes(toSendLen);
+            // the server works as BigEndian. if we are running on little endian, we have to reverse the byte order
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(toSendLenBytes);
+            // send message size
             m_Socket.Send(toSendLenBytes);
+            // send message
             m_Socket.Send(toSendBytes);
 #if UNITY_EDITOR
             Debug.Log("Sent Auth");
 #endif
+            // Wait for the server to respond
             GetAuthResponse();
         }
-
+        /// <summary>
+        /// Helper function to retrieve the server's authentican response
+        /// </summary>
         private void GetAuthResponse()
         {
+            // Get the message off the server
             var msg = GetMessage();
+            // parse the json into a JObject so we can pull properties out easily
             var response = JObject.Parse(msg);
+            // get the command that has arrived, should be the authentication response
             var commandValue = ((string)response.Property(StreamObjectKeys.COMMAND)?.Value);
-            if (commandValue == NeuosStreamConstants.StreamCommandValues.AUTH_SUCCESS)
+            if (commandValue == StreamCommandValues.AUTH_SUCCESS)
             {
 #if UNITY_EDITOR
                 Debug.Log("Auth success");
@@ -205,31 +251,42 @@ namespace io.neuos
                 OnError?.Invoke("Failed to authenticate with server");
             }
         }
-
+        /// <summary>
+        /// Helper function that gets the next message from the stream and return is parsed to a string
+        /// </summary>
+        /// <returns></returns>
         private string GetMessage()
         {
-            // Receiving
+            // first get the 2 bytes to see the next message's size
             m_Socket.Receive(m_CommandLength);
+            // the server works as BigEndian. if we are running on little endian, we have to reverse the byte order
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(m_CommandLength);
+            // convert to a unsigned 16 bit int to find the length of the command
             int rcvLen = BitConverter.ToUInt16(m_CommandLength, 0);
+            // read that length in byte into the buffer
             m_Socket.Receive(m_recBuffer, rcvLen, SocketFlags.None);
+            // convert to a string
             string rcv = Encoding.UTF8.GetString(m_recBuffer, 0, rcvLen);
 #if UNITY_EDITOR
             Debug.Log("Client received: " + rcv);
 #endif
             return rcv;
         }
-
-        private string getAuth()
+        /// <summary>
+        /// Helper function to construct the authentication JSON object to send out to the sever 
+        /// </summary>
+        /// <returns></returns>
+        private string GetAuth()
         {
             var JObject = new JObject();
-            JObject.Add(new JProperty(StreamObjectKeys.COMMAND, NeuosStreamConstants.StreamCommandValues.AUTH));
+            JObject.Add(new JProperty(StreamObjectKeys.COMMAND, StreamCommandValues.AUTH));
             JObject.Add(new JProperty(StreamObjectKeys.API_KEY, ApiKey));
             return JObject.ToString();
-
         }
-
+        /// <summary>
+        /// Unity clean up function
+        /// </summary>
         private void OnDestroy()
         {
             if (IsConnected)
