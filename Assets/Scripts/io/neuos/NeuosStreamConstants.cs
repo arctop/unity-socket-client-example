@@ -89,5 +89,18 @@
             public const int EEG_FAILURE = 3;
         }
 
+        /**
+        * Connection values.
+        **/
+        public static class ConnectionState
+        {
+            public const int UNKNOWN = 0;
+            public const int CONNECTING = 1;
+            public const int CONNECTED = 2;
+            public const int CONNECTION_FAILED = 3;
+            public const int DISCONNECTED = 4;
+            public const int DISCONNECTED_UPON_REQUEST = 5;
+        }
+
     }
 }

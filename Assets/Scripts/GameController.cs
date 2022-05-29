@@ -1,9 +1,17 @@
 ﻿using io.neuos;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+/// <summary>
+/// Game controller behaviour
+/// This class connectes between the "game" and the neuos client
+/// Though a very basic implementation it demonstrates how to activate and use the 
+/// NeuosClient and the information is provides.
+/// This class recieves data from the NeuosClient via its serialized events
+/// which are linked in the scene with the inspector.
+/// See the Neuos Client / Game Controller GameObjecs in the Demo scene
+/// </summary>
 public class GameController : MonoBehaviour
 {
     [SerializeField]
@@ -56,25 +64,30 @@ public class GameController : MonoBehaviour
     public void OnValueChanged(string key, float value)
     {
         fields[key] = value.ToString();
-        updateUI();
+        UpdateUI();
     }
 
     public void OnHeadbandConnectionChange(int prev, int curr)
     {
-
+        // values defined in NeuosStreamConstants.ConnectionState
+        fields["HeadbandConnection"] = $"Current : {curr} Previous : {prev}";
+        UpdateUI();
     }
 
     public void OnQAMessage(bool passed, int reason)
     {
-
+        // reasons defined in NeuosStreamConstants.QAFailureType
+        fields["QA"] = $"Passed : {passed} Reason : {reason}";
+        UpdateUI();
     }
 
     public void OnError(string message)
     {
-
+        fields["Last error"] = message;
+        UpdateUI();
     }
 
-    private void updateUI()
+    private void UpdateUI()
     {
         builder.Clear();
         foreach (var kvp in fields)
