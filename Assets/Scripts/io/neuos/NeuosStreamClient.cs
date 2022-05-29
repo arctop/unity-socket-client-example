@@ -18,6 +18,8 @@ namespace io.neuos
         public class QAEvent : UnityEvent<bool, int> { }
         [Serializable]
         public class ErrorEvent : UnityEvent<string> { }
+        [Serializable]
+        public class ConnectionEvent : UnityEvent<int, int> { }
 
         [SerializeField]
         private UnityEvent OnServerConnected;
@@ -25,6 +27,8 @@ namespace io.neuos
         private UnityEvent OnServerDisconnected;
         [SerializeField]
         private ValueChangedEvent OnValueChanged;
+        [SerializeField]
+        private ConnectionEvent OnHeadbandConnectionChanged;
         [SerializeField]
         private QAEvent OnQAEvent;
         [SerializeField]
@@ -39,6 +43,7 @@ namespace io.neuos
         private byte[] m_keepAlive = new byte[1];
         private bool m_blockingState;
 
+        
         
 
         public void ConnectToServer(string serverIp, int serverPort)
@@ -99,6 +104,9 @@ namespace io.neuos
                     var data = GetMessage();
                     var response = JObject.Parse(data);
                     var commandValue = (string)response.Property(StreamObjectKeys.COMMAND)?.Value;
+                    // example of pulling the time stamp off the command
+                    var timestamp = (long)response.Property(StreamObjectKeys.TIME_STAMP)?.Value;
+                    
                     switch (commandValue)
                     {
                         case StreamCommandValues.VALUE_CHANGED:
@@ -118,6 +126,13 @@ namespace io.neuos
                         case StreamCommandValues.SESSION_COMPLETE:
                             {
                                 Disconnect();
+                                break;
+                            }
+                        case StreamCommandValues.CONNECTION:
+                            {
+                                var previous =  (int)response.Property(StreamObjectKeys.PREVIOUS)?.Value;
+                                var current = (int)response.Property(StreamObjectKeys.CURRENT)?.Value;
+                                OnHeadbandConnectionChanged?.Invoke(previous, current);
                                 break;
                             }
                     }
