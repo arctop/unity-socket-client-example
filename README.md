@@ -14,6 +14,8 @@ This project is an example of using the Neuos™ SDK stream server inside Unity3D.
 
 - You should review the resrouces listed below to get a better understanding of the Neuos™ platform and SDK.
 
+- The code files contain complete documentation, please be sure to read through those.
+
 # Project Structure
 
 The client implementation handles connection and authentication, and uses UnityEvents to transmit the parsed data. This allows connecting listeners inside the Unity inspector.
