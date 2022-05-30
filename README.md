@@ -30,6 +30,8 @@ namespace *io.neuos* contains 2 classes.
 
 With these 2 classes and [Json.Net](https://www.newtonsoft.com/json) in your project, you can implement a project using the Neuos Stream. 
 
+The project was developed using Unity 2019.4 LTS
+
 # Resources
 
 [Neuos™ SDK](https://github.com/arctop/Neuos-SDK) - The main Neuos™ SDK git hub project page.
