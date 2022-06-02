@@ -14,6 +14,8 @@ This project is an example of using the Neuos SDK stream server inside Unity3D.
 
 - The code files contain complete documentation, please be sure to read through those.
 
+- The project has been tested on Window 10 only.
+
 # Instructions
 
 1. Start Neuos Central app on the Android device and activate the SDK Stream.
