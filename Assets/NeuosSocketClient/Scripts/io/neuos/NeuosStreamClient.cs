@@ -12,7 +12,7 @@ namespace io.neuos
     /// <summary>
     /// Stream Client Behaviour
     /// This class handles the connection to the Neuos Stream Server
-    /// running on a local android phone.
+    /// running on an android phone in the local network
     /// It establises the socket connection, and handles authentication, along with all messaging.
     /// The class also handles reading the JSON objects and dispatching events into the unity world.
     /// This is done via UnityEvents so it is possible to link in the inspector.
@@ -67,8 +67,11 @@ namespace io.neuos
         {
             try
             {
+                // constract the IP / Port adderss
                 IPEndPoint serverAddress = new IPEndPoint(IPAddress.Parse(serverIp), serverPort);
+                // create a new TCPSocket with that address
                 m_Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                // attempt connection with the socket
                 m_Socket.Connect(serverAddress);
 #if UNITY_EDITOR
                 Debug.Log($"Connections Status: {m_Socket.Connected}");
@@ -274,7 +277,7 @@ namespace io.neuos
             return rcv;
         }
         /// <summary>
-        /// Helper function to construct the authentication JSON object to send out to the sever 
+        /// Helper function to construct the authentication JSON object to send out to the server 
         /// </summary>
         /// <returns></returns>
         private string GetAuth()
