@@ -1709,6 +1709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
         type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
       propertyPath: OnError.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 836112978}
@@ -1769,6 +1774,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
         type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
       propertyPath: OnServerConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 836112978}
@@ -1789,6 +1799,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
         type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 836112978}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
       propertyPath: OnServerConnected.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -1801,6 +1816,16 @@ PrefabInstance:
         type: 3}
       propertyPath: OnServerConnected.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnServerConnected
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnArrayValueChanged
       objectReference: {fileID: 0}
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
         type: 3}
@@ -1850,6 +1875,11 @@ PrefabInstance:
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
         type: 3}
       propertyPath: OnServerConnected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,
+        type: 3}
+      propertyPath: OnArrayValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3072003858376048293, guid: fe49c5d276eb6452d91ffccbe3ec36a5,

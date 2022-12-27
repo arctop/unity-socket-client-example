@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using UnityEngine.Events;
+using System.Collections.Generic;
 using static io.neuos.NeuosStreamConstants;
 
 namespace io.neuos
@@ -25,6 +26,8 @@ namespace io.neuos
         [Serializable]
         public class ValueChangedEvent : UnityEvent<string, float> { }
         [Serializable]
+        public class ArrayValueChangedEvent : UnityEvent<string, float[]> { }
+        [Serializable]
         public class QAEvent : UnityEvent<bool, int> { }
         [Serializable]
         public class ErrorEvent : UnityEvent<string> { }
@@ -40,6 +43,8 @@ namespace io.neuos
         private UnityEvent OnServerDisconnected;
         [SerializeField]
         private ValueChangedEvent OnValueChanged;
+        [SerializeField]
+        private ArrayValueChangedEvent OnArrayValueChanged;
         [SerializeField]
         private ConnectionEvent OnHeadbandConnectionChanged;
         [SerializeField]
@@ -146,8 +151,22 @@ namespace io.neuos
                         case StreamCommandValues.VALUE_CHANGED:
                             {
                                 var key = (string)response.Property(StreamObjectKeys.KEY)?.Value;
-                                var value = (float)response.Property(StreamObjectKeys.VALUE)?.Value;
-                                OnValueChanged?.Invoke(key, value);
+                                var type = response.Property(StreamObjectKeys.VALUE)?.Value.Type;
+                                if (type != JTokenType.Array)
+                                {
+                                    var value = (float)response.Property(StreamObjectKeys.VALUE)?.Value;
+                                    OnValueChanged?.Invoke(key, value);
+                                }
+                                else 
+                                {
+                                    var value = response.Property(StreamObjectKeys.VALUE)?.Value;
+                                    List<float> floats = new List<float>();
+                                    foreach (var child in value.Children())
+                                    {
+                                        floats.Add((float)child);
+                                    }
+                                    OnArrayValueChanged?.Invoke(key, floats.ToArray());
+                                }
                                 break;
                             }
                         case StreamCommandValues.QA:

@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     
     
     StringBuilder builder = new StringBuilder();
+    StringBuilder arrayBuilder = new StringBuilder();
     private Dictionary<string, string> fields = new Dictionary<string, string>();
     /// <summary>
     /// Method to call that will connect to the Neuos Stream server
@@ -60,6 +61,7 @@ public class GameController : MonoBehaviour
     {
         connectButton.gameObject.SetActive(false);
         disconnectButton.gameObject.SetActive(true);
+
     }
     /// <summary>
     /// Callback for when the Neuos Stream server has disconnected
@@ -78,6 +80,25 @@ public class GameController : MonoBehaviour
     {
         // here we store the value into our dictionary
         fields[key] = value.ToString();
+        UpdateUI();
+    }
+    /// <summary>
+    /// Callback for when the Neuos Stream server sends an updated value
+    /// </summary>
+    /// <param name="key">The key of the value</param>
+    /// <param name="value">The actual value</param>
+    public void OnArrayValueChanged(string key, float[] value)
+    {
+        // here we store the value into our dictionary
+        arrayBuilder.Clear();
+        foreach (var kvp in value)
+        {
+            // add each key value pair as a line to the string builder
+            arrayBuilder.Append($"{kvp},");
+        }
+        // update the UI text value with the value of the new string builder
+        arrayBuilder.Length--;
+        fields[key] = arrayBuilder.ToString();
         UpdateUI();
     }
     /// <summary>
