@@ -31,7 +31,7 @@ The project is very basic, containing a very rudimentary UI to display the incom
 
 namespace *io.neuos* contains 2 classes.
 
-*[NeuosStreamConstants](/Assets/Scripts/io/neuos/NeuosStreamConstants.cs)* holds all relavent constants needed, and is derived off of [NeuosSDK.java](https://github.com/arctop/Neuos-SDK/blob/main/neuosSDK/src/main/java/io/neuos/NeuosSDK.java)
+*[NeuosStreamConstants](/Assets/NeuosSocketClient/Scripts/io/neuos/NeuosStreamConstants.cs)* holds all relavent constants needed, and is derived off of [NeuosSDK.java](https://github.com/arctop/Neuos-SDK/blob/main/neuosSDK/src/main/java/io/neuos/NeuosSDK.java)
  and [NeuosStreamService.kt](https://github.com/arctop/Neuos-SDK/blob/main/neuosSDK/src/main/java/io/neuos/NeuosStreamService.kt)
 
 *[NeuosStreamClient](/Assets/Scripts/io/neuos/NeuosStreamClient.cs)* is a MonoBehaviour that does all the heavy lifting of connection, authentication, parsing and socket handling.
