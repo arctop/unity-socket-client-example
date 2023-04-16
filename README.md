@@ -50,7 +50,7 @@ The project was developed using Unity 2019.4 LTS.
 
 [Neuos Central](https://play.google.com/store/apps/details?id=io.neuos.central) - Neuos Central Android play store page.
 
-# Depndencies 
+# Dependencies 
 
 The project uses [Json.Net](https://www.newtonsoft.com/json). Originally, Unity did not have an official package available. This has changed, and as such, we have provided a package without the DLL to avoid assembly clashing. 
 
