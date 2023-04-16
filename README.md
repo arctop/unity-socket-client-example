@@ -14,7 +14,9 @@ This project is an example of using the Neuos SDK stream server inside Unity3D.
 
 - The code files contain complete documentation, please be sure to read through those.
 
-- The project has been tested on Window 10 only.
+# Installation
+
+- The release page includes several versions of the unity package. Depending on your unity version / project packages, you might have the newtonsoft Json Libraray installed as a package. For that reason, a variant with the NoJson package is available. It is recommended that you try that package first. If you encounter compile errors, stating that newtonsoft cannot be found, you can either install the other package, or preferbly, add the official unity package into your project. See the Depndencies section below.
 
 # Instructions
 
@@ -50,4 +52,10 @@ The project was developed using Unity 2019.4 LTS.
 
 # Depndencies 
 
-The project uses [Json.Net](https://www.newtonsoft.com/json).
+The project uses [Json.Net](https://www.newtonsoft.com/json). Originally, Unity did not have an official package available. This has changed, and as such, we have provided a package without the DLL to avoid assembly clashing. 
+
+If this package does not compile due to assembly missing, it is recommended that you add the official unity package from the package manager, as oppossed to using the bundled dll. 
+
+To add the package, in Unity, go to Window -> Package Manager, click the + sign, and select "Add package by name...". Enter com.unity.nuget.newtonsoft-json into the name field, and hit add. This will import the package and resolve compilation errors.
+
+If you had the old DLL in the project, feel free to delete it and add the package as a replacement.
