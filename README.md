@@ -1,16 +1,16 @@
-# Neuos™ Stream Client
+# Arctop Stream Client
 
-This project is an example of using the Neuos SDK stream server inside Unity3D.
+This project is an example of using the Arctop Stream server inside Unity3D.
 
 # Prerequistes
 
-- Neuos Central installed on the device and the user has calibrated.
+- Arctop app installed on the device and the user has calibrated.
 
 - Both the device running your Unity app and the android device running need to be connected to the same LAN.
 
 - A client must have an API key to be able and connect to a running server.
 
-- You should review the resrouces listed below to get a better understanding of the Neuos platform and SDK.
+- You should review the resrouces listed below to get a better understanding of the Arctop platform and SDK.
 
 - The code files contain complete documentation, please be sure to read through those.
 
@@ -20,8 +20,8 @@ This project is an example of using the Neuos SDK stream server inside Unity3D.
 
 # Instructions
 
-1. Start Neuos Central app on the Android device and activate the SDK Stream.
-With the stream active, Neuos will produce realtime values and transmit those over a socket to authenticated clients.
+1. Start Arctop app on the Android device and activate the SDK Stream.
+With the stream active, Arctop app will produce realtime values and transmit those over a socket to authenticated clients.
 
 2. Run this example app.
 
@@ -29,7 +29,7 @@ With the stream active, Neuos will produce realtime values and transmit those ov
 
 The client implementation handles connection and authentication, and uses UnityEvents to transmit the parsed data. This allows connecting listeners inside the Unity inspector.
 
-The project is very basic, containing a very rudimentary UI to display the incoming data. A single GameController script handles all input and UI, and is responsible for interacting with the Neuos Client code.
+The project is very basic, containing a very rudimentary UI to display the incoming data. A single GameController script handles all input and UI, and is responsible for interacting with the Arctop Stream client code.
 
 namespace *io.neuos* contains 2 classes.
 
@@ -44,11 +44,12 @@ The project was developed using Unity 2019.4 LTS.
 
 # Resources
 
-[Neuos SDK](https://github.com/arctop/Neuos-SDK) - The main Neuos SDK git hub project page.
+[Android Native SDK](https://github.com/arctop/android-sdk) - The main Arctop Android Native SDK git hub project page.
 
-[Neuos Stream Server Documentation](https://github.com/arctop/Neuos-SDK/blob/main/Neuos-Stream.md) - Readme file for the Neuos Stream Server.
 
-[Neuos Central](https://play.google.com/store/apps/details?id=io.neuos.central) - Neuos Central Android play store page.
+[Arctop Stream Server Documentation](https://github.com/arctop/android-sdk/blob/main/Arctop-Stream.md) - Readme file for the Arctop Stream Server.
+
+[Arctop Android app](https://play.google.com/store/apps/details?id=io.neuos.central) - Arctop Android play store page.
 
 # Dependencies 
 
